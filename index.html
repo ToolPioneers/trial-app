@@ -3,11 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Widget Test</title>
+  <title>Dynamic Widget Loader</title>
 </head>
 <body>
-  <h1>My Widget Page</h1>
+  <h1>Load Widget by Agent ID</h1>
 
-  <script src="https://reditool.com/widget/index.js?agent=efb38e11-591b-4cbb-ba3b-84bfe607c4de"></script>
+  <input type="text" id="agentInput" placeholder="Enter Agent ID" />
+  <button onclick="loadWidget()">Load Widget</button>
+
+  <script>
+    function loadWidget() {
+      const agentId = document.getElementById('agentInput').value.trim();
+      if (!agentId) {
+        alert("Please enter a valid Agent ID");
+        return;
+      }
+
+      // Prevent loading multiple times
+      if (document.getElementById('widgetScript')) {
+        document.getElementById('widgetScript').remove();
+      }
+
+      const script = document.createElement('script');
+      script.src = `https://reditool.com/widget/index.js?agent=${encodeURIComponent(agentId)}`;
+      script.id = 'widgetScript';
+      document.body.appendChild(script);
+    }
+  </script>
 </body>
 </html>
